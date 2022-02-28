@@ -1,0 +1,20 @@
+name: 'Build-HelmChart'
+description: 'Builds and pushes helmchart to ACR'
+inputs:
+  acr_instance:
+    required: true
+  acr_user:
+    required: true
+  acr_password:
+    required: true
+  chart_name:
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - run: helm registry login ${{ inputs.acr_instance }} --username=${{ inputs.acr_user }} --password=${{ inputs.password }}
+      shell: bash
+    - run: helm package {{ inputs.chart_name }}/ --version ${{ github.run_number }}
+      shell: bash          
+    - run: helm push python-chart*.tgz oci://${{ inputs.acr_instance }}/helmchart
+      shell: bash
