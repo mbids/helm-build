@@ -15,7 +15,7 @@ runs:
     - uses: actions/checkout@v2
     - run: helm registry login ${{ inputs.acr_instance }} --username="${{ inputs.acr_user }}" --password="${{ inputs.acr_password }}"
       shell: bash
-    - run: helm package {{ inputs.chart_name }}/ --version ${{ github.run_number }}
+    - run: helm package ${{ inputs.chart_name }}/ --version ${{ github.run_number }}
       shell: bash          
     - run: helm push python-chart*.tgz oci://${{ inputs.acr_instance }}/helmchart
       shell: bash
