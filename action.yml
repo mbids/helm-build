@@ -12,6 +12,7 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - uses: actions/checkout@v2
     - run: helm registry login ${{ inputs.acr_instance }} --username="${{ inputs.acr_user }}" --password="${{ inputs.acr_password }}"
       shell: bash
     - run: helm package {{ inputs.chart_name }}/ --version ${{ github.run_number }}
